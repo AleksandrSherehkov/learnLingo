@@ -1,6 +1,6 @@
 # Learn Lingo 🌍
 
-![LearnLingo](/public/images/header/logo.svg) [Live App](https://learn-lingo-beta.vercel.app/)
+![LearnLingo](/public/images/header/logo.svg) [Live App](https://learnlingo.vercel.app/)
 
 ## Project Description
 
@@ -39,7 +39,7 @@ variety of teachers to choose from based on language, expertise level, and price
 ## 🌐 Deployment
 
 The application is also deployed using [Vercel](https://vercel.com/) at
-[https://learn-lingo-beta.vercel.app/](https://learn-lingo-beta.vercel.app/).
+[https://learn-lingo-beta.vercel.app/](https://learnlingo.vercel.app/).
 
 ## 📝 Note for Developers
 
