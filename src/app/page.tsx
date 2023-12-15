@@ -1,21 +1,5 @@
-import Header from '@/components/Header/Header';
-import { Hero } from '@/components/Hero/Hero';
-import { Statistics } from '@/components/Statistics/Statistics';
-import { statuses } from '@/utils/themaApi';
+import Image from 'next/image';
 
-const Home = async () => {
-  const randomIndex = Math.floor(Math.random() * statuses.length);
-  const status = statuses[randomIndex];
-
-  return (
-    <>
-      <Header status={status} />
-      <main className="flex min-h-screen max-w-[1440px] mx-auto flex-col items-center px-5">
-        <Hero status={status} />
-        <Statistics status={status} />
-      </main>
-    </>
-  );
-};
-
-export default Home;
+export default function Home() {
+  return <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>Home</h1></main>;
+}
