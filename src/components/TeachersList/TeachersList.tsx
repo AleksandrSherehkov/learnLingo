@@ -1,30 +1,28 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, FC } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { onAuthStateChanged } from "firebase/auth";
-import { DocumentSnapshot } from "firebase/firestore";
+import React, { useState, useEffect, FC } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
+import { DocumentSnapshot } from 'firebase/firestore';
 
-import { TeacherItem } from "../TeacherItem/TeacherItem";
-import { AttentionModal } from "../AttentionModal/AttentionModal";
-import { ButtonLoadMore } from "../ButtonLoadMore/ButtonLoadMore";
-import Modal from "../Modal/Modal";
-import { BookTrial } from "../BookTrial/BookTrial";
+import { TeacherItem } from '../TeacherItem/TeacherItem';
+import { AttentionModal } from '../AttentionModal/AttentionModal';
+import { ButtonLoadMore } from '../ButtonLoadMore/ButtonLoadMore';
+import Modal from '../Modal/Modal';
+import { BookTrial } from '../BookTrial/BookTrial';
 
-import { auth } from "@/firebase/config";
-import { SearchParams, Teacher, Thema } from "@/utils/definitions";
-import { getTeachersData, getFavorites } from "@/services/api";
-import { NoFavorites } from "../NoFavorites/NoFavorites";
+import { auth } from '@/firebase/config';
+import { SearchParams, Teacher, Thema } from '@/utils/definitions';
+import { getTeachersData, getFavorites } from '@/services/api';
+import { NoFavorites } from '../NoFavorites/NoFavorites';
 
 interface TeacherListProps {
   searchParams?: SearchParams;
   status: Thema;
 }
 
-export const TeachersList: FC<TeacherListProps> = ({
-  searchParams,
-  status,
-}) => {
+export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => {
+  console.log(`searchParams:`, searchParams);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
   const [pickedTeacher, setPickedTeacher] = useState<Teacher | null>(null);
@@ -32,14 +30,16 @@ export const TeachersList: FC<TeacherListProps> = ({
   const router = useRouter();
 
   const showBookTrial = searchParams?.trial;
+  console.log(`showBookTrial:`, showBookTrial);
 
   const showAttention = searchParams?.attention;
+  const { trial, ...otherSearchParams } = searchParams || {};
 
   const loadMoreTeachers = async () => {
     if (!lastDoc) return;
     const teachersData = await getTeachersData(searchParams, lastDoc);
 
-    setTeachers((prev) => [...prev, ...teachersData.teachers]);
+    setTeachers(prev => [...prev, ...teachersData.teachers]);
     setLastDoc(teachersData.lastVisible ?? null);
   };
 
@@ -52,40 +52,38 @@ export const TeachersList: FC<TeacherListProps> = ({
 
   useEffect(() => {
     const loadInitialData = async () => {
-      if (pathname === "/teachers") {
+      if (pathname === '/teachers') {
         const teachersData = await getTeachersData(searchParams);
 
         setTeachers(teachersData.teachers);
         setLastDoc(teachersData.lastVisible ?? null);
-      } else if (pathname === "/favorites") {
-        onAuthStateChanged(auth, async (user) => {
+      } else if (pathname === '/favorites') {
+        onAuthStateChanged(auth, async user => {
           if (user) {
             try {
               const favoritesData = await getFavorites();
               setTeachers(favoritesData.teachers);
               setLastDoc(favoritesData.lastVisible ?? null);
             } catch (error) {
-              console.error("Error loading favorite teachers:", error);
+              console.error('Error loading favorite teachers:', error);
             }
           } else {
-            console.error("User is not authorized");
+            console.error('User is not authorized');
           }
         });
       }
     };
     loadInitialData();
-  }, [pathname]);
+  }, [pathname, JSON.stringify(otherSearchParams)]);
 
   const handleAuthCheck = (path: string, teacherId?: string | null) => {
     if (teacherId) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       router.push(`${pathname}/?${path}=true`);
-      const chosenTeacher = teachers.find(
-        (teacher) => teacher.id === teacherId
-      );
+      const chosenTeacher = teachers.find(teacher => teacher.id === teacherId);
       setPickedTeacher(chosenTeacher ? chosenTeacher : null);
     } else {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       router.push(`${pathname}/?${path}=true`);
     }
   };
@@ -96,17 +94,17 @@ export const TeachersList: FC<TeacherListProps> = ({
       setTeachers(favoritesData.teachers);
       setLastDoc(favoritesData.lastVisible ?? null);
     } catch (error) {
-      console.error("Error loading favorite teachers:", error);
+      console.error('Error loading favorite teachers:', error);
     }
   };
 
   return (
     <>
       <ul className="flex flex-col gap-y-8 mt-8">
-        {teachers.length === 0 && pathname === "/favorites" ? (
+        {teachers.length === 0 && pathname === '/favorites' ? (
           <NoFavorites />
         ) : (
-          teachers.map((item) => (
+          teachers.map(item => (
             <TeacherItem
               onFavoriteChange={handleFavoriteChange}
               handleAuthCheck={handleAuthCheck}
@@ -120,9 +118,7 @@ export const TeachersList: FC<TeacherListProps> = ({
 
       {lastDoc && teachers.length % 4 === 0 && (
         <ButtonLoadMore
-          loadMoreTeachers={
-            pathname === "/teachers" ? loadMoreTeachers : loadMoreFavorites
-          }
+          loadMoreTeachers={pathname === '/teachers' ? loadMoreTeachers : loadMoreFavorites}
           status={status}
         />
       )}
