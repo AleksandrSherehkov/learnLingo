@@ -33,7 +33,8 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   console.log(`showBookTrial:`, showBookTrial);
 
   const showAttention = searchParams?.attention;
-  const { trial, attention, registration, login, ...otherSearchParams } = searchParams ?? {};
+  const { trial, attention, registration, login, logout, ...otherSearchParams } =
+    searchParams ?? {};
 
   const loadMoreTeachers = async () => {
     if (!lastDoc) return;

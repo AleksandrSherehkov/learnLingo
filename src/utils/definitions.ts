@@ -9,6 +9,7 @@ export interface SearchParams {
   trial?: string;
   registration?: string;
   login?: string;
+  logout?: string;
   id?: string;
 }
 
