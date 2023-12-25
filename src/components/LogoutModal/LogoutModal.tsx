@@ -18,26 +18,14 @@ export const LogoutModal: FC<LogoutModalProps> = ({ status }) => {
 
   const handleLogOut = async () => {
     try {
-      // Включить прокрутку
       document.body.style.overflow = 'auto';
-
-      // Выполнить действие выхода из системы
       await logout();
-
-      // Разобрать текущий URL и параметры
       const currentUrl = new URL(window.location.href);
       const params = currentUrl.searchParams;
-
-      // Удалить параметр 'logout'
       params.delete('logout');
-
-      // Сформировать новый URL без параметра 'logout'
       const newPath = `/teachers?${params.toString()}`;
-
-      // Переадресовать на страницу с сохраненными параметрами фильтра
       router.replace(newPath);
     } catch (error: any) {
-      // Обработать ошибки, например, отобразив уведомление
       toast.error(error.toString());
     }
   };

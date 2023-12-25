@@ -23,26 +23,15 @@ export const RegisterForm = () => {
   const handleSubmit = async (values: Values, { resetForm }: { resetForm: () => void }) => {
     document.body.style.overflow = 'auto';
     try {
-      // Выполнить регистрацию
       await register(values);
-
-      // Сбросить форму
       resetForm();
-
-      // Разобрать текущий URL и его параметры
       const currentUrl = new URL(window.location.href);
       const params = currentUrl.searchParams;
-
-      // Удалить параметр 'registration'
       params.delete('registration');
-
-      // Сформировать новый URL без параметра 'registration'
+      params.delete('attention');
       const newPath = `${pathname}?${params.toString()}`;
-
-      // Переадресовать на страницу с сохраненными параметрами фильтра
       router.replace(newPath);
     } catch (error: any) {
-      // Обработать ошибки, например, отобразив уведомление
       toast.error(error.toString());
     }
   };

@@ -20,28 +20,17 @@ export const LoginForm = () => {
   const pathname = usePathname();
 
   const handleSubmit = async (values: Values, { resetForm }: { resetForm: () => void }) => {
-    document.body.style.overflow = 'auto'; // Установить прокрутку страницы обратно на авто
+    document.body.style.overflow = 'auto';
     try {
-      // Выполнить вход в систему
       await login(values);
-
-      // Сброс формы после успешного входа
       resetForm();
-
-      // Разобрать текущий URL и параметры запроса
       const currentUrl = new URL(window.location.href);
       const params = currentUrl.searchParams;
-
-      // Удалить параметр 'login'
       params.delete('login');
-
-      // Сформировать новый URL без параметра 'login'
+      params.delete('attention');
       const newPath = `${pathname}?${params.toString()}`;
-
-      // Переадресовать на обновленный адрес
       router.replace(newPath);
     } catch (error: any) {
-      // Обработать ошибки, например, отобразить уведомление
       toast.error(error.toString());
     }
   };

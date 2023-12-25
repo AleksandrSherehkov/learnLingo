@@ -22,7 +22,7 @@ interface TeacherListProps {
 }
 
 export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => {
-  console.log(`searchParams:`, searchParams);
+ 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
   const [pickedTeacher, setPickedTeacher] = useState<Teacher | null>(null);
@@ -30,7 +30,7 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   const router = useRouter();
 
   const showBookTrial = searchParams?.trial;
-  console.log(`showBookTrial:`, showBookTrial);
+  
 
   const showAttention = searchParams?.attention;
   const { trial, attention, registration, login, logout, ...otherSearchParams } =

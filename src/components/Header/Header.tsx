@@ -42,19 +42,10 @@ const Header: React.FC<HeaderProps> = ({ status }) => {
   const showLogout = searchParams.get('logout');
 
   const handleClick = (path: string) => {
-    // Get current query parameters
     const currentQueryParams = new URLSearchParams(window.location.search);
-
-    // Add or update your custom parameter
     currentQueryParams.set(path, 'true');
-
-    // Construct the new pathname with updated query parameters
     const newPathname = `${pathname}?${currentQueryParams.toString()}`;
-
-    // Update the overflow style
     document.body.style.overflow = 'hidden';
-
-    // Push the new pathname
     router.push(newPathname);
   };
 
