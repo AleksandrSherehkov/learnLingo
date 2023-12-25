@@ -1,4 +1,4 @@
-export type Thema = "themaA" | "themaB" | "themaC" | "themaD" | "themaF";
+export type Thema = 'themaA' | 'themaB' | 'themaC' | 'themaD' | 'themaF';
 
 export interface SearchParams {
   languages?: string;
@@ -7,6 +7,8 @@ export interface SearchParams {
   page?: string;
   attention?: string;
   trial?: string;
+  registration?: string;
+  login?: string;
   id?: string;
 }
 

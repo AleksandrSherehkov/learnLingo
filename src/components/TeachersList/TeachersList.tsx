@@ -33,7 +33,7 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   console.log(`showBookTrial:`, showBookTrial);
 
   const showAttention = searchParams?.attention;
-  const { trial, attention, ...otherSearchParams } = searchParams ?? {};
+  const { trial, attention, registration, login, ...otherSearchParams } = searchParams ?? {};
 
   const loadMoreTeachers = async () => {
     if (!lastDoc) return;
@@ -77,14 +77,25 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   }, [pathname, JSON.stringify(otherSearchParams)]);
 
   const handleAuthCheck = (path: string, teacherId?: string | null) => {
+    // Get current query parameters
+    const currentQueryParams = new URLSearchParams(window.location.search);
+
+    // Add or update your custom parameter
+    currentQueryParams.set(path, 'true');
+
+    // Construct the new pathname with updated query parameters
+    const newPathname = `${pathname}?${currentQueryParams.toString()}`;
+
+    // Push the new pathname
+    router.push(newPathname);
+
+    // Rest of your logic for handling authentication check
     if (teacherId) {
       document.body.style.overflow = 'hidden';
-      router.push(`${pathname}/?${path}=true`);
       const chosenTeacher = teachers.find(teacher => teacher.id === teacherId);
       setPickedTeacher(chosenTeacher ? chosenTeacher : null);
     } else {
       document.body.style.overflow = 'hidden';
-      router.push(`${pathname}/?${path}=true`);
     }
   };
 
