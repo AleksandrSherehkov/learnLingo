@@ -22,7 +22,6 @@ interface TeacherListProps {
 }
 
 export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => {
- 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
   const [pickedTeacher, setPickedTeacher] = useState<Teacher | null>(null);
@@ -30,7 +29,6 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   const router = useRouter();
 
   const showBookTrial = searchParams?.trial;
-  
 
   const showAttention = searchParams?.attention;
   const { trial, attention, registration, login, logout, ...otherSearchParams } =
@@ -78,19 +76,11 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
   }, [pathname, JSON.stringify(otherSearchParams)]);
 
   const handleAuthCheck = (path: string, teacherId?: string | null) => {
-    // Get current query parameters
     const currentQueryParams = new URLSearchParams(window.location.search);
-
-    // Add or update your custom parameter
     currentQueryParams.set(path, 'true');
-
-    // Construct the new pathname with updated query parameters
     const newPathname = `${pathname}?${currentQueryParams.toString()}`;
-
-    // Push the new pathname
     router.push(newPathname);
 
-    // Rest of your logic for handling authentication check
     if (teacherId) {
       document.body.style.overflow = 'hidden';
       const chosenTeacher = teachers.find(teacher => teacher.id === teacherId);
@@ -115,6 +105,12 @@ export const TeachersList: FC<TeacherListProps> = ({ searchParams, status }) => 
       <ul className="flex flex-col gap-y-8 mt-8">
         {teachers.length === 0 && pathname === '/favorites' ? (
           <NoFavorites />
+        ) : teachers.length === 0 &&
+          pathname === '/teachers' &&
+          Object.keys(searchParams ?? {}).length > 0 ? (
+          <p className="text-3xl text-center font-medium leading-tight tracking-tight lg:leading-[48px] lg:tracking-[-0.64px]">
+            No teachers were found with these filtering parameters...
+          </p>
         ) : (
           teachers.map(item => (
             <TeacherItem
