@@ -22,8 +22,8 @@ const Modal: FC<ModalProps> = ({ children, variant }) => {
 
   const onClick: MouseEventHandler = useCallback(
     e => {
-      if (e.target === e.currentTarget) {
-        if (onDismiss) onDismiss();
+      if (e.target === e.currentTarget && onDismiss) {
+        onDismiss();
       }
     },
     [onDismiss]
