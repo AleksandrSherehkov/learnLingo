@@ -56,7 +56,7 @@ export const SelectInput: FC<SelectInputProps> = ({
         styles={selectStyles}
         options={selectOptions}
         onChange={handleChange}
-        value={selectOptions.find((option) => option.value === selectedValue)}
+        value={selectOptions.find((option) => option.value === selectedValue) || null}
         placeholder="-------"
       />
     </div>

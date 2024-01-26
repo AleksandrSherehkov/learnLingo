@@ -34,5 +34,9 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
-  }
+  },
+  "description": "![LearnLingo](/public/images/header/logo.svg) [Live App](https://learnlingo.vercel.app/)",
+  "main": "next.config.js",
+  "author": "",
+  "license": "ISC"
 }
